@@ -42,9 +42,9 @@ function PieChart() {
   };
 
   return (
-    <Box className="PieChart">
+    <Box className="PieChart" textAlign="center">
       <h1>Термоелектричний модуль</h1>
-      <Box className="input-container">
+      <Box className="input-container" marginBottom="10px">
         <TextField
           type="number"
           label="Температура нагріву (°C)"
@@ -52,7 +52,7 @@ function PieChart() {
           onChange={(e) => handleTemperatureChange(e, 'hot')}
         />
       </Box>
-      <Box className="input-container">
+      <Box className="input-container" marginBottom="10px">
         <TextField
           type="number"
           label="Температура охолодження (°C)"
@@ -60,7 +60,7 @@ function PieChart() {
           onChange={(e) => handleTemperatureChange(e, 'cold')}
         />
       </Box>
-      <Box className="input-container">
+      <Box className="input-container" marginBottom="10px">
         <TextField
           type="number"
           label="Опір термоелектричного модуля (Ом)"
@@ -74,7 +74,7 @@ function PieChart() {
         <h2>Потужність теплового потоку: {calculateHeatPower().toFixed(2)} Вт</h2>
         <h2>Коефіцієнт продуктивності: {calculateCOP().toFixed(2)}</h2>
       </Box>
-      <Box className="plot-container">
+      <Box className="plot-container" marginTop="30px">
         <Plot
           data={[
             {

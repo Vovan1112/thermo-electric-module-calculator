@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { TextField, Button, Box } from '@mui/material';
+import { FormDataContext } from '../../context/FormDataContext';
 
 function ThermoelectricModuleForm() {
-  const [formData, setFormData] = useState({
+
+  const { setFormDataContext } = useContext(FormDataContext);
+
+
+  const [formData, updateFormData ] = useState({
     branchSize: '',
     branchHeight: '',
     accumulationThickness: '',
@@ -13,7 +18,7 @@ function ThermoelectricModuleForm() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
+    updateFormData({
       ...formData,
       [name]: value,
     });
@@ -22,6 +27,7 @@ function ThermoelectricModuleForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
+    setFormDataContext(formData)
   };
 
   return (
@@ -50,7 +56,7 @@ function ThermoelectricModuleForm() {
         />
         <TextField
           label="Товщина керамічної пластини"
-          type="number"
+          type="text"
           name="ceramicPlateThickness"
           value={formData.ceramicPlateThickness}
           onChange={handleChange}
