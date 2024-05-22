@@ -6,10 +6,7 @@ function PieChart() {
   const [temperatureHot, setTemperatureHot] = useState(100);
   const [temperatureCold, setTemperatureCold] = useState(25);
   const [resistance, setResistance] = useState(10);
-
-  const calculateEfficiency = () => {
-    return ((temperatureHot - temperatureCold) / temperatureHot) * 100;
-  };
+  const [avarageM, setAvarageM] = useState(1);
 
   const calculateVoltage = () => {
     return resistance * (temperatureHot - temperatureCold);
@@ -21,6 +18,17 @@ function PieChart() {
 
   const calculateCOP = () => {
     return calculateHeatPower() / (calculateVoltage() * 0.001);
+  };
+
+  const calculateEmax = (T, T0, M) => {
+    const term1 = T / (T0 - T);
+    const term2 = (M - (T0 / T)) / (M + 1);
+    return term1 * term2;
+  };
+
+  const calculateQmax = (T, T0, zT) => {
+    const term1 = T - 2 * (T0 - T) / (zT);
+    return term1 / (2 * T0);
   };
 
   const handleTemperatureChange = (e, type) => {
@@ -40,6 +48,16 @@ function PieChart() {
       setResistance(value);
     }
   };
+
+  const handleZTavgChange = (e) => {
+    const value = parseFloat(e.target.value);
+    if (!isNaN(value)) {
+      setAvarageM(value);
+    }
+  };
+
+  const Emax = calculateEmax(temperatureCold + 273.15, temperatureHot + 273.15, avarageM);
+  const Qmax = calculateQmax(temperatureCold + 273.15, temperatureHot + 273.15, avarageM);
 
   return (
     <Box className="PieChart" textAlign="center">
@@ -68,14 +86,23 @@ function PieChart() {
           onChange={(e) => handleResistanceChange(e)}
         />
       </Box>
+      <Box className="input-container" marginBottom="10px">
+        <TextField
+          type="number"
+          label="M середнє"
+          value={avarageM}
+          onChange={(e) => handleZTavgChange(e)}
+        />
+      </Box>
       <Box className="result-container">
-        <h2>КПД модуля: {calculateEfficiency().toFixed(2)}%</h2>
         <h2>Напруга на модулі: {calculateVoltage().toFixed(2)} В</h2>
-        <h2>Потужність теплового потоку: {calculateHeatPower().toFixed(2)} Вт</h2>
+        <h2>Потужність теплового потоку: {calculateHeatPower().toFixed(2)} В</h2>
         <h2>Коефіцієнт продуктивності: {calculateCOP().toFixed(2)}</h2>
+        <h2>Emax: {Emax.toFixed(2)}</h2>
+        <h2>Qmax: {Qmax.toFixed(2)}</h2>
       </Box>
       <Box className="plot-container" marginTop="30px">
-        <Plot
+        {/* <Plot
           data={[
             {
               type: 'pie',
@@ -85,7 +112,7 @@ function PieChart() {
             },
           ]}
           layout={{ width: 400, height: 400, title: 'Графік ККД' }}
-        />
+        /> */}
       </Box>
     </Box>
   );

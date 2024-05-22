@@ -8,12 +8,12 @@ function ThermoelectricModuleForm() {
 
 
   const [formData, updateFormData ] = useState({
-    branchSize: '',
-    branchHeight: '',
-    accumulationThickness: '',
-    ceramicPlateThickness: '',
-    branchSpacing: '',
-    branchCount: '',
+    branchSize: 1,
+    branchHeight: 1,
+    accumulationThickness: 0.3,
+    ceramicPlateThickness: 0.3,
+    branchSpacing: 1,
+    branchCount: 0,
   });
 
   const handleChange = (e) => {
@@ -56,7 +56,7 @@ function ThermoelectricModuleForm() {
         />
         <TextField
           label="Товщина керамічної пластини"
-          type="text"
+          type="number"
           name="ceramicPlateThickness"
           value={formData.ceramicPlateThickness}
           onChange={handleChange}
